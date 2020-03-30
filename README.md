@@ -1,48 +1,22 @@
-# Refgenie plugin
+# Refgenie Nextflow plugin
 
-This is a demo refgenie plugin. Refgenie plugins are Python packages that provide functions that are configured to run during specific refgenie actions.
+This plugin links Refgenie and Nextflow. It will make all your refgenie-managed assets available to your nextflow pipelines. 
 
-## Hooks
+## Install
 
-The plugin system can run functions at these hooks: 
-
-- "post_update"
-- "pre_pull"
-- "pre_tag"
-- "pre_list"
-
-A refgenie plugin has 3 requirements:
-
-## 1. Add entry_points to setup.py
-
-The [setup.py](setup.py) file uses `entry_points` to specify a mapping of refgenie hooks to functions to call.
+Install with some flavor of:
 
 ```
-    entry_points={
-        'refgenie.hooks.post_update': 'myplugin=refgenie_myplugin:my_post_update_func',
-        'refgenie.hooks.pre_pull': 'myplugin=refgenie_myplugin:my_pre_pull_func',
-        }
+pip install --user --upgrade https://github.com/databio/refgenie_nfcore.git
 ```
 
-The format is: `'refgenie.hooks.HOOK': 'PLUGIN_NAME=PLUGIN_PACKAGE_NAME:FUNCTION_NAME'`.
+## Point refgenie to the nextflow config file you want to manage
 
-- "HOOK" must be one of the list provided above.
-- "PLUGIN_NAME" can be any unique identifier for your plugin
-- "PLUGIN_PACKAGE_NAME" must be the name of python package the holds your plugin.
-- "FUNCTION_NAME" must match the name of the function in your package
-
-## 2. Write functions to call
-
-The module [refgenie_myplugin/refgenie_myplugin.py](refgenie_myplugin/refgenie_myplugin.py) contains the functions, with names corresponding to the `FUNCTION_NAME` in the entry points above. These functions **must take a RefGenConf object as sole parameter**.
+Add this line to your `$REFGENIE` config file:
 
 ```
-import refgenconf
-
-def my_post_update_func(rgc):
-	print("You have successfully run refgenie_myplugin:my_post_update_func()")
-
-def my_pre_pull_func(rgc):
-	print("You have successfully run refgenie_myplugin:my_pre_pull_func().")
+nextflow_config: /abs/path/to/nextflow.config
 ```
 
-That's it! Install the package and it should run your functions at the specified hook entry points.
+
+That's it! Now whenever you update any assets with refgenie, your nextflow config file will be updated. Keep in mind: if using this plugin, your nextflow config file will now be managed by refgenie, so changes you introduce into the file directly will be overwritten by the next refgenie update.
