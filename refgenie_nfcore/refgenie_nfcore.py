@@ -1,4 +1,5 @@
 import refgenconf
+from warnings import warn
 
 nf_cfg_template = """
 params {{
@@ -8,16 +9,23 @@ params {{
 }}
 """
 
+
 def print_nf_config(rgc):
     abg = rgc.list_assets_by_genome()
     genomes_str = ""
     for genome, asset_list in abg.items():
         genomes_str += "    '{}' {{\n".format(genome)
-        for asset in asset_list: 
-            genomes_str += "      {} = \"{}\"\n".format(asset.ljust(20, " "), 
-                rgc.seek(genome, asset))
+        for asset in asset_list:
+            try:
+                pth = rgc.seek(genome, asset)
+            except refgenconf.exceptions.MissingSeekKeyError:
+                warn("{}/{} is incomplete, ignoring...".format(genome, asset))
+            else:
+                genomes_str += \
+                    "      {} = \"{}\"\n".format(asset.ljust(20, " "), pth)
 
     return nf_cfg_template.format(content=genomes_str)
+
 
 def update_nfcore_config(rgc):
     nf_cfg_str = print_nf_config(rgc)
