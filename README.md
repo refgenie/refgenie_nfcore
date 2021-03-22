@@ -7,7 +7,7 @@ This plugin links Refgenie and Nextflow. It will make all your refgenie-managed 
 Install with some flavor of:
 
 ```
-pip install --user --upgrade https://github.com/databio/refgenie_nfcore.git
+pip install --user --upgrade https://github.com/refgenie/refgenie_nfcore.git
 ```
 
 ## Point refgenie to the nextflow config file you want to manage
