@@ -34,8 +34,8 @@ pip install --upgrade https://github.com/databio/refgenconf/archive/plugins.zip
 pip install https://github.com/databio/refgenie_nfcore/archive/master.zip
 
 # Initialize
-mkdir refgenie test
-cd refgenie test
+mkdir refgenie_test
+cd refgenie_test
 refgenie init -c refgenie.yaml
 touch nextflow.config
 echo "nextflow_config: `pwd`/nextflow.config" >> refgenie.yaml
