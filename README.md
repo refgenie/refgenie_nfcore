@@ -30,7 +30,6 @@ source env/bin/activate
 
 # Install
 pip install refgenie
-pip install --upgrade https://github.com/databio/refgenconf/archive/plugins.zip
 pip install https://github.com/databio/refgenie_nfcore/archive/master.zip
 
 # Initialize
