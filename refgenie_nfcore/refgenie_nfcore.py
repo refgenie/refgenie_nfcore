@@ -11,10 +11,7 @@ params {{
 
 
 def print_nf_config(rgc):
-    try:
-        abg = rgc.list_assets_by_genome()
-    except:
-        return nf_cfg_template.format(content="")
+    abg = rgc.list_assets_by_genome()
     genomes_str = ""
     for genome, asset_list in abg.items():
         genomes_str += "    '{}' {{\n".format(genome)
